@@ -1,8 +1,9 @@
 from pydantic import EmailStr, BaseModel #type: ignore
 
 
+
 from enum import Enum
-class Role:
+class Role(str, Enum):
     DIRECTOR = "director"
     ADMIN  = "admin"
 
