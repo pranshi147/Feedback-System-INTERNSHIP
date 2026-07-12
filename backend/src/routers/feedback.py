@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-
+from typing import Optional
+from fastapi import Query
 from src.database import get_db
 from src.core.dependencies import get_current_user
 from src.models.user import User
@@ -46,10 +47,22 @@ def submit_feedback(
     response_model=list[FeedbackResponse]
 )
 def view_all_feedback(
+    search: Optional[str] = None,
+    category: Optional[str] = None,
+    status: Optional[str] = None,
+    page: int = Query(1, ge=1),
+    limit: int = Query(10, ge=1, le=100),
     db: Session = Depends(get_db),
     current_user: User = Depends(admin_required)
 ):
-    return get_all_feedback(db)
+    return get_all_feedback(
+        db=db,
+        search=search,
+        category=category,
+        status=status,
+        page=page,
+        limit=limit
+    )
 
 
 @router.get(

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-
+from sqlalchemy import or_
 from src.models.feedback import Feedback
 from src.schemas.feedback import FeedbackCreate
 
@@ -23,8 +23,40 @@ def create_feedback(
     return new_feedback
 
 
-def get_all_feedback(db: Session):
-    return db.query(Feedback).all()
+def get_all_feedback(
+    db: Session,
+    search: str | None = None,
+    category: str | None = None,
+    status: str | None = None,
+    page: int = 1,
+    limit: int = 10
+):
+    query = db.query(Feedback)
+
+    if search:
+        query = query.filter(
+            or_(
+                Feedback.title.ilike(f"%{search}%"),
+                Feedback.description.ilike(f"%{search}%")
+            )
+        )
+
+    if category:
+        query = query.filter(
+            Feedback.category == category
+        )
+
+    if status:
+        query = query.filter(
+            Feedback.status == status
+        )
+
+    return (
+        query
+        .offset((page - 1) * limit)
+        .limit(limit)
+        .all()
+    )
 
 
 def get_feedback_by_user(
