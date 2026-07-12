@@ -7,3 +7,4 @@ class DashboardStats(BaseModel):
     resolved: int
     rejected: int
     category_counts: dict[str, int]
+    monthly_feedback: dict[str, int]

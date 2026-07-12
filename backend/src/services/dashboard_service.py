@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import func
+from sqlalchemy import func, extract
 
 from src.models.feedback import Feedback
 
@@ -38,6 +38,36 @@ def get_dashboard_stats(db: Session):
     category_counts = {
         category: count
         for category, count in category_data
+    }
+
+    monthly_data = (
+    db.query(
+        extract("month", Feedback.created_at),
+        func.count(Feedback.id)
+    )
+    .group_by(extract("month", Feedback.created_at))
+    .order_by(extract("month", Feedback.created_at))
+    .all()
+    )
+
+    months = {
+        1: "Jan",
+        2: "Feb",
+        3: "Mar",
+        4: "Apr",
+        5: "May",
+        6: "Jun",
+        7: "Jul",
+        8: "Aug",
+        9: "Sep",
+        10: "Oct",
+        11: "Nov",
+        12: "Dec",
+    }
+
+    monthly_feedback = {
+        months[int(month)]: count
+        for month, count in monthly_data
     }
 
     return {
