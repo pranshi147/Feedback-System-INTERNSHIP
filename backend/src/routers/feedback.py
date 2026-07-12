@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import Optional
 from fastapi import Query
@@ -77,6 +77,7 @@ def my_feedback(
         db,
         current_user.uuid
     )
+
 @router.patch(
     "/{feedback_id}"
 )
