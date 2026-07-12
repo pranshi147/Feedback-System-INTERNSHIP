@@ -5,10 +5,10 @@ from src.core.config import settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-def hashing(password: str):
+def hash_password(password: str):
     return pwd_context.hash(password)
 
-def verification(plain_pass: str, hashed: str):
+def verify_password(plain_pass: str, hashed: str):
     return pwd_context.verify(plain_pass, hashed)
 
 def create_access_token(data: dict):
