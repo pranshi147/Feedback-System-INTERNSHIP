@@ -16,3 +16,6 @@ class FeedbackResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+class FeedbackStatusUpdate(BaseModel):
+    status: str

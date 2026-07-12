@@ -36,3 +36,24 @@ def get_feedback_by_user(
         .filter(Feedback.user_id == user_id)
         .all()
     )
+
+def update_feedback_status(
+    db: Session,
+    feedback_id: int,
+    status: str
+):
+    feedback = (
+        db.query(Feedback)
+        .filter(Feedback.id == feedback_id)
+        .first()
+    )
+
+    if feedback is None:
+        return None
+
+    feedback.status = status
+
+    db.commit()
+    db.refresh(feedback)
+
+    return feedback

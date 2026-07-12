@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 from src.database import get_db
 from src.core.dependencies import get_current_user
 from src.models.user import User
+from src.schemas.feedback import FeedbackStatusUpdate
+from src.services.feedback_service import update_feedback_status
 from src.schemas.feedback import (
     FeedbackCreate,
     FeedbackResponse
@@ -12,6 +14,9 @@ from src.services.feedback_service import (
     create_feedback,
     get_all_feedback,
     get_feedback_by_user
+)
+from src.core.permissions import (
+    admin_required
 )
 
 router = APIRouter(
@@ -41,7 +46,8 @@ def submit_feedback(
     response_model=list[FeedbackResponse]
 )
 def view_all_feedback(
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(admin_required)
 ):
     return get_all_feedback(db)
 
@@ -58,3 +64,25 @@ def my_feedback(
         db,
         current_user.uuid
     )
+@router.patch(
+    "/{feedback_id}"
+)
+def change_status(
+    feedback_id: int,
+    request: FeedbackStatusUpdate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(admin_required)
+):
+    feedback = update_feedback_status(
+        db,
+        feedback_id,
+        request.status
+    )
+
+    if feedback is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Feedback not found"
+        )
+
+    return feedback
