@@ -1,7 +1,8 @@
 from datetime import datetime
 
-from sqlalchemy import String, ForeignKey, DateTime
+from sqlalchemy import String, ForeignKey, DateTime, Text
 from sqlalchemy.orm import Mapped, mapped_column
+
 
 from src.database import Base
 
@@ -29,4 +30,9 @@ class Feedback(Base):
 
     user_id: Mapped[int] = mapped_column(
         ForeignKey("users.uuid")
+    )
+
+    reply = mapped_column(
+    Text,
+    nullable=True
     )

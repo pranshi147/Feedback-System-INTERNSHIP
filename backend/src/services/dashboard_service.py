@@ -86,3 +86,24 @@ def get_dashboard_stats(db: Session):
     "monthly_feedback": monthly_feedback,
     "recent_feedback": recent_feedback
     }
+
+def reply_to_feedback(
+    db: Session,
+    feedback_id: int,
+    reply: str
+):
+    feedback = (
+        db.query(Feedback)
+        .filter(Feedback.id == feedback_id)
+        .first()
+    )
+
+    if feedback is None:
+        return None
+
+    feedback.reply = reply
+
+    db.commit()
+    db.refresh(feedback)
+
+    return feedback

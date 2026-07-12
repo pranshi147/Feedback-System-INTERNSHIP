@@ -19,3 +19,6 @@ class FeedbackResponse(BaseModel):
 
 class FeedbackStatusUpdate(BaseModel):
     status: str
+
+class FeedbackReply(BaseModel):
+    reply: str
