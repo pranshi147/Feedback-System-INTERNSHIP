@@ -6,3 +6,4 @@ class DashboardStats(BaseModel):
     pending: int
     resolved: int
     rejected: int
+    category_counts: dict[str, int]
