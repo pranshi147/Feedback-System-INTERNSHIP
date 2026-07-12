@@ -70,10 +70,19 @@ def get_dashboard_stats(db: Session):
         for month, count in monthly_data
     }
 
+    recent_feedback = (
+    db.query(Feedback)
+    .order_by(Feedback.created_at.desc())
+    .limit(5)
+    .all()
+    )
+
     return {
-        "total_feedback": total,
-        "pending": pending,
-        "resolved": resolved,
-        "rejected": rejected,
-        "category_counts": category_counts
+    "total_feedback": total,
+    "pending": pending,
+    "resolved": resolved,
+    "rejected": rejected,
+    "category_counts": category_counts,
+    "monthly_feedback": monthly_feedback,
+    "recent_feedback": recent_feedback
     }
