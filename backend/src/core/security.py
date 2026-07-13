@@ -3,9 +3,11 @@ from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
-SECRET_KEY = "your-secret-key-change-this-in-production"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+from src.core.config import settings
+
+SECRET_KEY = settings.SECRET_KEY
+ALGORITHM = settings.ALGORITHM
+ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -34,14 +36,22 @@ def create_access_token(data: dict):
     return encoded_jwt
 
 
+from jose import JWTError, jwt
+
 def verify_access_token(token: str):
+    print("=" * 50)
+    print("TOKEN RECEIVED:", token)
+
     try:
         payload = jwt.decode(
             token,
             SECRET_KEY,
             algorithms=[ALGORITHM]
         )
+
+        print("PAYLOAD:", payload)
         return payload
 
-    except JWTError:
+    except JWTError as e:
+        print("JWT ERROR:", e)
         return None

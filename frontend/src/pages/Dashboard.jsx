@@ -1,9 +1,41 @@
+import { useEffect, useState } from "react";
+
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import StatCard from "../components/StatCard";
 
+import { getDashboardStats } from "../api/dashboard";
+
 function Dashboard() {
+
+    const [stats, setStats] = useState(null);
+
+    useEffect(() => {
+
+        async function loadDashboard() {
+            try {
+                const data = await getDashboardStats();
+                setStats(data);
+            }
+            catch (error) {
+                console.error(error);
+            }
+        }
+
+        loadDashboard();
+
+    }, []);
+
+    if (!stats) {
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                Loading...
+            </div>
+        );
+    }
+
     return (
+
         <div className="flex">
 
             <Sidebar />
@@ -18,22 +50,22 @@ function Dashboard() {
 
                         <StatCard
                             title="Total Feedback"
-                            value="0"
+                            value={stats.total_feedback}
                         />
 
                         <StatCard
                             title="Pending"
-                            value="0"
+                            value={stats.pending}
                         />
 
                         <StatCard
                             title="Resolved"
-                            value="0"
+                            value={stats.resolved}
                         />
 
                         <StatCard
                             title="Rejected"
-                            value="0"
+                            value={stats.rejected}
                         />
 
                     </div>
@@ -43,6 +75,7 @@ function Dashboard() {
             </div>
 
         </div>
+
     );
 }
 

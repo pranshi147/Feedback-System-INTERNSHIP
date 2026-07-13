@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import SubmitFeedback from "./pages/SubmitFeedback";
+
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -19,6 +21,15 @@ function App() {
                     element={
                         <ProtectedRoute>
                             <Dashboard />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/submit-feedback"
+                    element={
+                        <ProtectedRoute>
+                            <SubmitFeedback />
                         </ProtectedRoute>
                     }
                 />

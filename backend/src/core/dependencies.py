@@ -13,6 +13,7 @@ def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db)
 ):
+    print("get_current_user() called")
     print("=" * 50)
     print("TOKEN:", token)
 
