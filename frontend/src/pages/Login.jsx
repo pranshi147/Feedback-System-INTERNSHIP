@@ -23,9 +23,13 @@ function Login() {
                 password,
             });
 
-            login(response.data.access_token);
+            console.log(response.data);
 
-            navigate("/dashboard");
+login(response.data.access_token);
+
+console.log(localStorage.getItem("token"));
+
+navigate("/dashboard");
         } 
         catch (err) {
     console.log(err);
