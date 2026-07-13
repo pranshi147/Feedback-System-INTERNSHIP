@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import api from "../api/api";
 import { AuthContext } from "../context/AuthContext";
@@ -27,7 +28,7 @@ function Login() {
 
 login(response.data.access_token);
 
-console.log(localStorage.getItem("token"));
+toast.success("Welcome back!");
 
 navigate("/dashboard");
         } 
@@ -36,9 +37,11 @@ navigate("/dashboard");
     console.log(err.response);
     console.log(err.response?.data);
 
-    setError(
-        err.response?.data?.detail || "Something went wrong"
-    );
+    const message =
+    err.response?.data?.detail || "Something went wrong";
+
+setError(message);
+toast.error(message);
 }
     };
 

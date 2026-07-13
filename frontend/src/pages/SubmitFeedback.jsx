@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../api/api";
 import Layout from "../components/Layout";
+import toast from "react-hot-toast";
 
 function SubmitFeedback() {
     const [title, setTitle] = useState("");
@@ -17,14 +18,13 @@ function SubmitFeedback() {
                 category
             });
 
-            alert("Feedback submitted successfully!");
-
+            toast.success("Feedback submitted successfully!");
             setTitle("");
             setDescription("");
             setCategory("General");
         } catch (err) {
             console.error(err);
-            alert("Failed to submit feedback");
+            toast.error("Failed to submit feedback.");
         }
     };
 

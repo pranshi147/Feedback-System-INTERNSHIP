@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
+import toast from "react-hot-toast";
 import {
     getAllFeedback,
     updateStatus,
@@ -33,13 +34,18 @@ function ManageFeedback() {
     }
 
     async function handleStatus(id, status) {
-        try {
-            await updateStatus(id, status);
-            loadFeedback();
-        } catch (err) {
-            console.error(err);
-        }
+    try {
+        await updateStatus(id, status);
+
+        toast.success("Status updated!");
+
+        loadFeedback();
+    } catch (err) {
+        console.error(err);
+
+        toast.error("Failed to update status.");
     }
+}
 
     async function handleReply(id) {
     try {
@@ -50,7 +56,7 @@ function ManageFeedback() {
 
         loadFeedback();
 
-        alert("Reply sent successfully!");
+        toast.success("Reply sent successfully!");
 
         setReplies((prev) => ({
             ...prev,
@@ -58,7 +64,7 @@ function ManageFeedback() {
         }));
     } catch (err) {
         console.error(err);
-        alert("Failed to send reply.");
+        toast.error("Failed to send reply.");
     }
     }
 
