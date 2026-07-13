@@ -28,25 +28,26 @@ function SubmitFeedback() {
         }
     };
 
-    return (
-        <Layout>
-        <div style={{ padding: "30px" }}>
-            <h1>Submit Feedback</h1>
+   return (
+    <Layout>
+        <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-xl p-8">
+
+            <h1 className="text-3xl font-bold mb-6">
+                Submit Feedback
+            </h1>
 
             <form
                 onSubmit={handleSubmit}
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "15px",
-                    maxWidth: "500px"
-                }}
+                className="space-y-5"
             >
+
                 <input
+                    type="text"
                     placeholder="Title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     required
+                    className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
 
                 <textarea
@@ -55,11 +56,13 @@ function SubmitFeedback() {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     required
+                    className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
 
                 <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
+                    className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                     <option>General</option>
                     <option>Bug</option>
@@ -67,13 +70,18 @@ function SubmitFeedback() {
                     <option>Complaint</option>
                 </select>
 
-                <button type="submit">
+                <button
+                    type="submit"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition"
+                >
                     Submit Feedback
                 </button>
+
             </form>
+
         </div>
-        </Layout>
-    );
+    </Layout>
+);
 }
 
 export default SubmitFeedback;
