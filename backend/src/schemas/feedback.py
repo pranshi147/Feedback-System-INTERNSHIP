@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+from typing import Optional
 
 class FeedbackCreate(BaseModel):
     title: str
@@ -13,6 +13,7 @@ class FeedbackResponse(BaseModel):
     description: str
     category: str
     status: str
+    reply: Optional[str] = None
 
     class Config:
         from_attributes = True

@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
-import { getAllFeedback, updateStatus } from "../api/feedback";
+import {
+    getAllFeedback,
+    updateStatus,
+    replyToFeedback
+} from "../api/feedback";
 
 function ManageFeedback() {
     const [feedbacks, setFeedbacks] = useState([]);
+    const [replies, setReplies] = useState({});
 
     useEffect(() => {
         loadFeedback();
@@ -25,6 +30,27 @@ function ManageFeedback() {
         } catch (err) {
             console.error(err);
         }
+    }
+
+    async function handleReply(id) {
+    try {
+        await replyToFeedback(
+            id,
+            replies[id] || ""
+        );
+
+        loadFeedback();
+
+        alert("Reply sent successfully!");
+
+        setReplies((prev) => ({
+            ...prev,
+            [id]: ""
+        }));
+    } catch (err) {
+        console.error(err);
+        alert("Failed to send reply.");
+    }
     }
 
     return (
@@ -72,6 +98,34 @@ function ManageFeedback() {
                                 Resolved
                             </option>
                         </select>
+                        <div className="mt-4">
+{item.reply && (
+    <div className="mt-4 p-3 bg-green-100 rounded">
+        <strong>Current Reply:</strong>
+        <p>{item.reply}</p>
+    </div>
+)}
+    <textarea
+        className="w-full border rounded p-2"
+        rows="3"
+        placeholder="Write a reply..."
+        value={replies[item.id] || ""}
+        onChange={(e) =>
+            setReplies({
+                ...replies,
+                [item.id]: e.target.value
+            })
+        }
+    />
+
+    <button
+        className="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        onClick={() => handleReply(item.id)}
+    >
+        Send Reply
+    </button>
+
+</div>
 
                     </div>
                 ))}

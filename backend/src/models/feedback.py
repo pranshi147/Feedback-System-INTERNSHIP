@@ -32,7 +32,7 @@ class Feedback(Base):
         ForeignKey("users.uuid")
     )
 
-    reply = mapped_column(
+    reply: Mapped[str | None] = mapped_column(
     Text,
     nullable=True
-    )
+)

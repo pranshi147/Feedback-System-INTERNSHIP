@@ -17,3 +17,11 @@ export const updateStatus = async (id, status) => {
 
     return response.data;
 };
+
+export const replyToFeedback = async (id, reply) => {
+    const response = await api.patch(`/feedback/${id}/reply`, {
+        reply,
+    });
+
+    return response.data;
+};

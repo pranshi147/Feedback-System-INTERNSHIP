@@ -47,6 +47,17 @@ function MyFeedback() {
                             <p>
                                 <strong>Status:</strong> {item.status}
                             </p>
+                            {item.reply && (
+    <div className="mt-4 bg-green-100 border border-green-300 rounded-lg p-3">
+        <h3 className="font-semibold text-green-800">
+            Admin Reply
+        </h3>
+
+        <p className="text-green-900 mt-1">
+            {item.reply}
+        </p>
+    </div>
+)}
                         </div>
                     ))}
                 </div>

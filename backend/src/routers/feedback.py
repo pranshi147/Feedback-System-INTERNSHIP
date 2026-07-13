@@ -15,7 +15,8 @@ from src.schemas.feedback import (
 from src.services.feedback_service import (
     create_feedback,
     get_all_feedback,
-    get_feedback_by_user
+    get_feedback_by_user,
+    reply_to_feedback
 )
 from src.core.permissions import (
     admin_required
@@ -92,6 +93,29 @@ def change_status(
         db,
         feedback_id,
         request.status
+    )
+
+    if feedback is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Feedback not found"
+        )
+
+    return feedback
+
+@router.patch(
+    "/{feedback_id}/reply"
+)
+def send_reply(
+    feedback_id: int,
+    request: FeedbackReply,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(admin_required)
+):
+    feedback = reply_to_feedback(
+        db,
+        feedback_id,
+        request.reply
     )
 
     if feedback is None:

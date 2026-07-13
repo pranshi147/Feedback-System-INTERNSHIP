@@ -89,3 +89,24 @@ def update_feedback_status(
     db.refresh(feedback)
 
     return feedback
+
+def reply_to_feedback(
+    db: Session,
+    feedback_id: int,
+    reply: str
+):
+    feedback = (
+        db.query(Feedback)
+        .filter(Feedback.id == feedback_id)
+        .first()
+    )
+
+    if feedback is None:
+        return None
+
+    feedback.reply = reply
+
+    db.commit()
+    db.refresh(feedback)
+
+    return feedback
