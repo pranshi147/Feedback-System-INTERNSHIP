@@ -44,9 +44,21 @@ function MyFeedback() {
                                 <strong>Category:</strong> {item.category}
                             </p>
 
-                            <p>
-                                <strong>Status:</strong> {item.status}
-                            </p>
+                            <div className="mt-2">
+    <span className="font-semibold">Status: </span>
+
+    <span
+        className={`px-3 py-1 rounded-full text-white text-sm ${
+            item.status === "Pending"
+                ? "bg-yellow-500"
+                : item.status === "In Progress"
+                ? "bg-blue-500"
+                : "bg-green-600"
+        }`}
+    >
+        {item.status}
+    </span>
+</div>
                             {item.reply && (
     <div className="mt-4 bg-green-100 border border-green-300 rounded-lg p-3">
         <h3 className="font-semibold text-green-800">

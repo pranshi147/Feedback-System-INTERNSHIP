@@ -115,7 +115,7 @@ function ManageFeedback() {
                 {feedbacks.map((item) => (
                     <div
                         key={item.id}
-                        className="bg-white shadow rounded-lg p-5"
+                        className="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition duration-200"
                     >
                         <h2 className="text-xl font-bold">
                             {item.title}
