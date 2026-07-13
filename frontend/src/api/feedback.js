@@ -5,11 +5,25 @@ export const getMyFeedback = async () => {
     return response.data;
 };
 
-export const getAllFeedback = async () => {
-    const response = await api.get("/feedback");
+export const getAllFeedback = async ({
+    search = "",
+    category = "",
+    status = "",
+    page = 1,
+    limit = 10,
+} = {}) => {
+    const response = await api.get("/feedback", {
+        params: {
+            search,
+            category,
+            status,
+            page,
+            limit,
+        },
+    });
+
     return response.data;
 };
-
 export const updateStatus = async (id, status) => {
     const response = await api.patch(`/feedback/${id}`, {
         status,

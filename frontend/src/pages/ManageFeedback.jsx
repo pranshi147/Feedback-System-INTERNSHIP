@@ -9,14 +9,23 @@ import {
 function ManageFeedback() {
     const [feedbacks, setFeedbacks] = useState([]);
     const [replies, setReplies] = useState({});
+    const [search, setSearch] = useState("");
+    const [category, setCategory] = useState("");
+    const [statusFilter, setStatusFilter] = useState("");
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
-        loadFeedback();
-    }, []);
+    loadFeedback();
+}, [search, category, statusFilter, page]);
 
     async function loadFeedback() {
         try {
-            const data = await getAllFeedback();
+            const data = await getAllFeedback({
+    search,
+    category,
+    status: statusFilter,
+    page,
+});
             setFeedbacks(data);
         } catch (err) {
             console.error(err);
@@ -60,6 +69,48 @@ function ManageFeedback() {
             </h1>
 
             <div className="space-y-4">
+                <div className="flex gap-4 mb-6 flex-wrap">
+
+    <input
+        type="text"
+        placeholder="Search..."
+        className="border rounded p-2"
+        value={search}
+        onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+        }}
+    />
+
+    <select
+        className="border rounded p-2"
+        value={category}
+        onChange={(e) => {
+            setCategory(e.target.value);
+            setPage(1);
+        }}
+    >
+        <option value="">All Categories</option>
+        <option value="Bug">Bug</option>
+        <option value="Feature Request">Feature Request</option>
+        <option value="General">General</option>
+    </select>
+
+    <select
+        className="border rounded p-2"
+        value={statusFilter}
+        onChange={(e) => {
+            setStatusFilter(e.target.value);
+            setPage(1);
+        }}
+    >
+        <option value="">All Status</option>
+        <option value="Pending">Pending</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Resolved">Resolved</option>
+    </select>
+
+</div>
 
                 {feedbacks.map((item) => (
                     <div
@@ -131,6 +182,28 @@ function ManageFeedback() {
                 ))}
 
             </div>
+            <div className="flex justify-center gap-4 mt-8">
+
+    <button
+        disabled={page === 1}
+        onClick={() => setPage(page - 1)}
+        className="bg-gray-300 px-4 py-2 rounded disabled:opacity-50"
+    >
+        Previous
+    </button>
+
+    <span className="font-semibold">
+        Page {page}
+    </span>
+
+    <button
+        onClick={() => setPage(page + 1)}
+        className="bg-blue-600 text-white px-4 py-2 rounded"
+    >
+        Next
+    </button>
+
+</div>
         </Layout>
     );
 }
