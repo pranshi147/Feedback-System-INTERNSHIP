@@ -1,14 +1,24 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-from src.database import Base, engine
-from src.models.user import User
-from src.models.feedback import Feedback
-from src.routers import dashboard
 from src.routers import auth
 from src.routers import feedback
+from src.routers import dashboard
 
 app = FastAPI()
 
+# CORS Configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Routers
 app.include_router(auth.router)
 app.include_router(feedback.router)
 app.include_router(dashboard.router)

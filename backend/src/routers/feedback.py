@@ -6,7 +6,6 @@ from src.database import get_db
 from src.core.dependencies import get_current_user
 from src.models.user import User
 from src.schemas.feedback import FeedbackReply
-from src.services.feedback_service import reply_to_feedback
 from src.schemas.feedback import FeedbackStatusUpdate
 from src.services.feedback_service import update_feedback_status
 from src.schemas.feedback import (
@@ -103,23 +102,3 @@ def change_status(
 
     return feedback
 
-@router.patch("/{feedback_id}/reply")
-def add_reply(
-    feedback_id: int,
-    request: FeedbackReply,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(admin_required)
-):
-    feedback = reply_to_feedback(
-        db,
-        feedback_id,
-        request.reply
-    )
-
-    if feedback is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Feedback not found"
-        )
-
-    return feedback
