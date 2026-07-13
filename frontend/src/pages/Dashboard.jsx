@@ -1,81 +1,54 @@
 import { useEffect, useState } from "react";
-
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
-import StatCard from "../components/StatCard";
-
+import Layout from "../components/Layout";
 import { getDashboardStats } from "../api/dashboard";
 
 function Dashboard() {
-
-    const [stats, setStats] = useState(null);
+    const [stats, setStats] = useState({});
 
     useEffect(() => {
-
         async function loadDashboard() {
             try {
                 const data = await getDashboardStats();
                 setStats(data);
-            }
-            catch (error) {
-                console.error(error);
+            } catch (err) {
+                console.error(err);
             }
         }
 
         loadDashboard();
-
     }, []);
 
-    if (!stats) {
-        return (
-            <div className="flex justify-center items-center min-h-screen">
-                Loading...
-            </div>
-        );
-    }
-
     return (
+        <Layout>
+            <h1 className="text-3xl font-bold mb-8">
+                Dashboard
+            </h1>
 
-        <div className="flex">
+            <div className="grid grid-cols-3 gap-6">
 
-            <Sidebar />
+                <div className="bg-white rounded-lg shadow p-6">
+                    <h2>Total Feedback</h2>
+                    <p className="text-3xl font-bold">
+                        {stats.total_feedback}
+                    </p>
+                </div>
 
-            <div className="flex-1 bg-gray-100 min-h-screen">
+                <div className="bg-white rounded-lg shadow p-6">
+                    <h2>Pending</h2>
+                    <p className="text-3xl font-bold">
+                        {stats.pending_feedback}
+                    </p>
+                </div>
 
-                <Navbar />
-
-                <div className="p-6">
-
-                    <div className="grid grid-cols-4 gap-6">
-
-                        <StatCard
-                            title="Total Feedback"
-                            value={stats.total_feedback}
-                        />
-
-                        <StatCard
-                            title="Pending"
-                            value={stats.pending}
-                        />
-
-                        <StatCard
-                            title="Resolved"
-                            value={stats.resolved}
-                        />
-
-                        <StatCard
-                            title="Rejected"
-                            value={stats.rejected}
-                        />
-
-                    </div>
-
+                <div className="bg-white rounded-lg shadow p-6">
+                    <h2>Resolved</h2>
+                    <p className="text-3xl font-bold">
+                        {stats.resolved_feedback}
+                    </p>
                 </div>
 
             </div>
-
-        </div>
-
+        </Layout>
     );
 }
 

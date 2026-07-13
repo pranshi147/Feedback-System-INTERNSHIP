@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../api/api";
+import Layout from "../components/Layout";
 
 function SubmitFeedback() {
     const [title, setTitle] = useState("");
@@ -28,6 +29,7 @@ function SubmitFeedback() {
     };
 
     return (
+        <Layout>
         <div style={{ padding: "30px" }}>
             <h1>Submit Feedback</h1>
 
@@ -70,6 +72,7 @@ function SubmitFeedback() {
                 </button>
             </form>
         </div>
+        </Layout>
     );
 }
 
