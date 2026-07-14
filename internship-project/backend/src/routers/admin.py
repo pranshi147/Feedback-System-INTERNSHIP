@@ -9,6 +9,8 @@ from src.schemas.user import UserCreate
 from src.services.admin_service import create_user
 from src.services.admin_service import update_user
 from src.services.admin_service import delete_user
+from src.services.admin_service import update_user
+from src.schemas.user import UserUpdate
 
 router = APIRouter(
     prefix="/admin",
@@ -25,7 +27,7 @@ def view_users(
 
 @router.post("/users")
 def add_user(
-    user: UserCreate,
+    user: UserUpdate,
     db: Session = Depends(get_db),
     current_user: User = Depends(admin_required)
 ):
@@ -47,3 +49,12 @@ def remove_user(
     current_user: User = Depends(admin_required)
 ):
     return delete_user(db, user_id)
+
+@router.put("/users/{user_id}")
+def edit_user(
+    user_id: int,
+    user: UserCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(admin_required)
+):
+    return update_user(db, user_id, user)

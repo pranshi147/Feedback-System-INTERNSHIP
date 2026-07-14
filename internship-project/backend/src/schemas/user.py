@@ -19,3 +19,8 @@ class UserCreate(BaseModel):
     email: str
     password: str
     role: Role
+
+class UserUpdate(BaseModel):
+    name: str
+    email: str
+    role: Role

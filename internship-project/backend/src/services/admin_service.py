@@ -50,3 +50,18 @@ def delete_user(db, user_id):
     db.commit()
 
     return {"message": "User deleted successfully"}
+
+def update_user(db, user_id, updated_user):
+    user = db.query(User).filter(User.uuid == user_id).first()
+
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    user.name = updated_user.name
+    user.email = updated_user.email
+    user.role = updated_user.role
+
+    db.commit()
+    db.refresh(user)
+
+    return user
