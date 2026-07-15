@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from src.database import get_db
@@ -17,13 +17,26 @@ router = APIRouter(
     tags=["Admin"]
 )
 
-
 @router.get("/users")
 def view_users(
+    page: int = Query(1, ge=1),
+    limit: int = Query(10, ge=1, le=100),
+    search: str | None = None,
+    role: str | None = None,
+    sort: str = "name",
+    order: str = "asc",
     db: Session = Depends(get_db),
     current_user: User = Depends(admin_required)
 ):
-    return get_all_users(db)
+    return get_all_users(
+        db=db,
+        page=page,
+        limit=limit,
+        search=search,
+        role=role,
+        sort=sort,
+        order=order
+    )
 
 @router.post("/users")
 def add_user(
@@ -50,11 +63,3 @@ def remove_user(
 ):
     return delete_user(db, user_id)
 
-@router.put("/users/{user_id}")
-def edit_user(
-    user_id: int,
-    user: UserCreate,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(admin_required)
-):
-    return update_user(db, user_id, user)

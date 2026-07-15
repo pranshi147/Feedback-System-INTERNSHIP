@@ -1,8 +1,11 @@
 import api from "./api";
 
-export const getUsers = async () => {
-    const response = await api.get("/admin/users");
-    return response.data;
+export const getUsers = async (params) => {
+    const res = await api.get("/admin/users", {
+        params,
+    });
+
+    return res.data;
 };
 
 export const updateUser = async (id, user) => {
