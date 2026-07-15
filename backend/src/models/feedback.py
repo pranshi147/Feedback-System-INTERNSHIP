@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from sqlalchemy import String, ForeignKey, DateTime, Text
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 
 from src.database import Base
@@ -31,6 +31,21 @@ class Feedback(Base):
     user_id: Mapped[int] = mapped_column(
         ForeignKey("users.uuid")
     )
+
+    assigned_to: Mapped[int | None] = mapped_column(
+    ForeignKey("users.uuid"),
+    nullable=True
+)
+    
+    creator = relationship(
+    "User",
+    foreign_keys=[user_id]
+)
+
+    assignee = relationship(
+    "User",
+    foreign_keys=[assigned_to]
+)
 
     reply: Mapped[str | None] = mapped_column(
     Text,

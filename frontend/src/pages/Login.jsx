@@ -23,10 +23,15 @@ function Login() {
                 email,
                 password,
             });
-
+            console.log("LOGIN RESPONSE:", response.data);
+            console.log("ACCESS TOKEN:", response.data.access_token);
             console.log(response.data);
 
 login(response.data.access_token);
+console.log(
+    "After login:",
+    localStorage.getItem("token")
+);
 
 toast.success("Welcome back!");
 

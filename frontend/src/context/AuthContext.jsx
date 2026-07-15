@@ -8,13 +8,20 @@ export function AuthProvider({ children }) {
     );
 
     const login = (jwt) => {
-        localStorage.setItem("token", jwt);
-        setToken(jwt);
+    console.log("Saving token:", jwt);
+
+    localStorage.setItem("token", jwt);
+
+    console.log("Stored:", localStorage.getItem("token"));
+
+    setToken(jwt);
     };
 
     const logout = () => {
-        localStorage.removeItem("token");
-        setToken(null);
+    console.log("LOGOUT CALLED");
+
+    localStorage.removeItem("token");
+    setToken(null);
     };
 
     return (

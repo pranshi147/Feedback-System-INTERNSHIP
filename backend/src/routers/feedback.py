@@ -7,6 +7,7 @@ from src.core.dependencies import get_current_user
 from src.models.user import User
 from src.schemas.feedback import FeedbackReply
 from src.schemas.feedback import FeedbackStatusUpdate
+from src.schemas.feedback import FeedbackAssign
 from src.services.feedback_service import update_feedback_status
 from src.schemas.feedback import (
     FeedbackCreate,
@@ -16,7 +17,9 @@ from src.services.feedback_service import (
     create_feedback,
     get_all_feedback,
     get_feedback_by_user,
-    reply_to_feedback
+    reply_to_feedback,
+    assign_feedback,
+    get_directors,
 )
 from src.core.permissions import (
     admin_required
@@ -122,6 +125,35 @@ def send_reply(
         raise HTTPException(
             status_code=404,
             detail="Feedback not found"
+        )
+
+    return feedback
+
+@router.get("/directors")
+def list_directors(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(admin_required)
+):
+    return get_directors(db)
+
+
+@router.put("/{feedback_id}/assign")
+def assign_feedback_to_director(
+    feedback_id: int,
+    request: FeedbackAssign,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(admin_required)
+):
+    feedback = assign_feedback(
+        db,
+        feedback_id,
+        request.assigned_to
+    )
+
+    if feedback is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Feedback or Director not found"
         )
 
     return feedback

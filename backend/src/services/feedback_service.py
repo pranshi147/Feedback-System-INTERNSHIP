@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
+
 from src.models.feedback import Feedback
+from src.models.user import User, Role
 from src.schemas.feedback import FeedbackCreate
 
 
@@ -69,6 +71,7 @@ def get_feedback_by_user(
         .all()
     )
 
+
 def update_feedback_status(
     db: Session,
     feedback_id: int,
@@ -90,6 +93,7 @@ def update_feedback_status(
 
     return feedback
 
+
 def reply_to_feedback(
     db: Session,
     feedback_id: int,
@@ -110,3 +114,50 @@ def reply_to_feedback(
     db.refresh(feedback)
 
     return feedback
+
+
+# -------------------------
+# NEW FUNCTIONS
+# -------------------------
+
+def assign_feedback(
+    db: Session,
+    feedback_id: int,
+    director_id: int | None,
+):
+    feedback = (
+        db.query(Feedback)
+        .filter(Feedback.id == feedback_id)
+        .first()
+    )
+
+    if feedback is None:
+        return None
+
+    if director_id is not None:
+        director = (
+            db.query(User)
+            .filter(User.uuid == director_id)
+            .first()
+        )
+
+        if director is None:
+            return None
+
+        if director.role != Role.DIRECTOR:
+            return None
+
+    feedback.assigned_to = director_id
+
+    db.commit()
+    db.refresh(feedback)
+
+    return feedback
+
+
+def get_directors(db: Session):
+    return (
+        db.query(User)
+        .filter(User.role == Role.DIRECTOR)
+        .all()
+    )
