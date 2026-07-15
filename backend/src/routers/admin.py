@@ -63,3 +63,17 @@ def remove_user(
 ):
     return delete_user(db, user_id)
 
+@router.get("/users/stats")
+def get_user_stats(
+    db: Session = Depends(get_db),
+    current_user=Depends(require_admin),
+):
+    return admin_service.get_user_stats(db)
+
+@router.get("/users/stats")
+def user_stats(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_admin),
+):
+    return admin_service.user_stats(db) 
+

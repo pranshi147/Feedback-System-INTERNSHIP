@@ -3,7 +3,7 @@ from src.models.user import User
 from src.core.security import hash_password
 from fastapi import HTTPException
 from src.models.user import Role
-from sqlalchemy import or_, asc, desc
+from sqlalchemy import or_, asc, desc, func
 
 
 def get_all_users(
@@ -106,3 +106,45 @@ def delete_user(db, user_id):
     db.commit()
 
     return {"message": "User deleted successfully"}
+
+def get_user_stats(db):
+    total = db.query(User).count()
+
+    admins = (
+        db.query(User)
+        .filter(User.role == Role.ADMIN)
+        .count()
+    )
+
+    directors = (
+        db.query(User)
+        .filter(User.role == Role.DIRECTOR)
+        .count()
+    )
+
+    return {
+        "total": total,
+        "admins": admins,
+        "directors": directors,
+    }
+
+def user_stats(db: Session):
+    total = db.query(User).count()
+
+    admins = (
+        db.query(User)
+        .filter(User.role == Role.ADMIN)
+        .count()
+    )
+
+    directors = (
+        db.query(User)
+        .filter(User.role == Role.DIRECTOR)
+        .count()
+    )
+
+    return {
+        "total": total,
+        "admins": admins,
+        "directors": directors,
+    }
