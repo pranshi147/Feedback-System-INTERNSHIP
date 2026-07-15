@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import SubmitFeedback from "./pages/SubmitFeedback";
 import MyFeedback from "./pages/MyFeedback";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Users from "./pages/Users";
 
 function App() {
     return (
@@ -48,6 +49,15 @@ function App() {
                     element={
                         <ProtectedRoute>
                             <ManageFeedback />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/users"
+                    element={
+                        <ProtectedRoute>
+                            <Users />
                         </ProtectedRoute>
                     }
                 />

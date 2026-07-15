@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.routers import auth
 from src.routers import feedback
 from src.routers import dashboard
+from src.routers import admin   # <-- add this
 
 app = FastAPI()
 
@@ -22,6 +23,7 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(feedback.router)
 app.include_router(dashboard.router)
+app.include_router(admin.router)   # <-- add this
 
 
 @app.get("/")

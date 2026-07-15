@@ -128,23 +128,3 @@ def get_user_stats(db):
         "directors": directors,
     }
 
-def user_stats(db: Session):
-    total = db.query(User).count()
-
-    admins = (
-        db.query(User)
-        .filter(User.role == Role.ADMIN)
-        .count()
-    )
-
-    directors = (
-        db.query(User)
-        .filter(User.role == Role.DIRECTOR)
-        .count()
-    )
-
-    return {
-        "total": total,
-        "admins": admins,
-        "directors": directors,
-    }

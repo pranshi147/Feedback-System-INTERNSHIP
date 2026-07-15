@@ -23,7 +23,3 @@ export const getUserStats = async () => {
     return res.data;
 };
 
-export const getUserStats = async () => {
-    const { data } = await api.get("/admin/users/stats");
-    return data;
-};

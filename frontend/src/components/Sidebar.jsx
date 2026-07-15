@@ -38,6 +38,13 @@ function Sidebar() {
                     Manage Feedback
                 </Link>
 
+                <Link
+                    to="/users"
+                    className="block hover:text-blue-400"
+                >
+                    Users
+                </Link>
+
             </nav>
 
         </div>

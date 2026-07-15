@@ -1,15 +1,26 @@
-from pydantic import EmailStr, BaseModel #type: ignore
-
-
-
 from enum import Enum
+from typing import Optional
+
+from pydantic import BaseModel, EmailStr
+
 class Role(str, Enum):
     DIRECTOR = "director"
-    ADMIN  = "admin"
+    ADMIN = "admin"
 
-class BaseUser(BaseModel):
+
+class UserBase(BaseModel):
     name: str
-    uuid: int
     email: EmailStr
-    password: str #encrypted
     role: Role
+
+class UserCreate(UserBase):
+    password: str
+
+class UserUpdate(UserBase):
+    password: Optional[str] = None
+
+class UserResponse(UserBase):
+    uuid: int
+
+    class Config:
+        from_attributes = True

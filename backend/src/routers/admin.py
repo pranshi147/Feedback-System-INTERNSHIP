@@ -4,18 +4,21 @@ from sqlalchemy.orm import Session
 from src.database import get_db
 from src.core.permissions import admin_required
 from src.models.user import User
-from src.services.admin_service import get_all_users
-from src.schemas.user import UserCreate
-from src.services.admin_service import create_user
-from src.services.admin_service import update_user
-from src.services.admin_service import delete_user
-from src.services.admin_service import update_user
-from src.schemas.user import UserUpdate
+from src.schemas.user import UserCreate, UserUpdate
+
+from src.services.admin_service import (
+    get_all_users,
+    create_user,
+    update_user,
+    delete_user,
+    get_user_stats,
+)
 
 router = APIRouter(
     prefix="/admin",
     tags=["Admin"]
 )
+
 
 @router.get("/users")
 def view_users(
@@ -26,7 +29,7 @@ def view_users(
     sort: str = "name",
     order: str = "asc",
     db: Session = Depends(get_db),
-    current_user: User = Depends(admin_required)
+    current_user: User = Depends(admin_required),
 ):
     return get_all_users(
         db=db,
@@ -35,45 +38,41 @@ def view_users(
         search=search,
         role=role,
         sort=sort,
-        order=order
+        order=order,
     )
+
 
 @router.post("/users")
 def add_user(
     user: UserUpdate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(admin_required)
+    current_user: User = Depends(admin_required),
 ):
     return create_user(db, user)
+
 
 @router.put("/users/{user_id}")
 def edit_user(
     user_id: int,
     user: UserCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(admin_required)
+    current_user: User = Depends(admin_required),
 ):
     return update_user(db, user_id, user)
+
 
 @router.delete("/users/{user_id}")
 def remove_user(
     user_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(admin_required)
+    current_user: User = Depends(admin_required),
 ):
     return delete_user(db, user_id)
 
-@router.get("/users/stats")
-def get_user_stats(
-    db: Session = Depends(get_db),
-    current_user=Depends(require_admin),
-):
-    return admin_service.get_user_stats(db)
 
 @router.get("/users/stats")
 def user_stats(
     db: Session = Depends(get_db),
-    current_user: User = Depends(require_admin),
+    current_user: User = Depends(admin_required),
 ):
-    return admin_service.user_stats(db) 
-
+    return get_user_stats(db)
