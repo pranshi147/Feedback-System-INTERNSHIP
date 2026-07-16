@@ -40,9 +40,21 @@ function MyFeedback() {
 
                             <p>{item.description}</p>
 
+                            <p className="text-gray-500 text-sm mt-2">
+    Submitted on{" "}
+    {new Date(item.created_at).toLocaleString()}
+</p>
+
                             <p className="mt-2">
                                 <strong>Category:</strong> {item.category}
                             </p>
+
+                            <p className="mt-2">
+    <strong>Assigned To:</strong>{" "}
+    {item.assigned_to
+        ? `Director #${item.assigned_to}`
+        : "Not Assigned"}
+</p>
 
                             <div className="mt-2">
     <span className="font-semibold">Status: </span>

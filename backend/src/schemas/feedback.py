@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
-
+from datetime import datetime
 
 class FeedbackCreate(BaseModel):
     title: str
@@ -16,6 +16,7 @@ class FeedbackResponse(BaseModel):
     status: str
     assigned_to: Optional[int] = None
     reply: Optional[str] = None
+    created_at: datetime
 
     class Config:
         from_attributes = True
