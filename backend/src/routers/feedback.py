@@ -138,7 +138,7 @@ def list_directors(
     return get_directors(db)
 
 
-@router.patch("/{feedback_id}/assign")
+@router.put("/{feedback_id}/assign")
 def assign_feedback_to_director(
     feedback_id: int,
     request: FeedbackAssign,

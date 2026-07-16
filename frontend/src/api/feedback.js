@@ -39,3 +39,19 @@ export const replyToFeedback = async (id, reply) => {
 
     return response.data;
 };
+
+export const getDirectors = async () => {
+    const response = await api.get("/feedback/directors");
+    return response.data;
+};
+
+export const assignFeedback = async (feedbackId, directorId) => {
+    const response = await api.put(
+        `/feedback/${feedbackId}/assign`,
+        {
+            director_id: directorId,
+        }
+    );
+
+    return response.data;
+};
