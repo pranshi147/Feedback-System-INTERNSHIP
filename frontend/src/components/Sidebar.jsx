@@ -45,6 +45,20 @@ function Sidebar() {
                     Users
                 </Link>
 
+                <Link
+                    to="/survey"
+                    className="block hover:text-blue-400"
+                >
+                    Survey
+                </Link>
+
+                <Link
+                    to="/survey-analytics"
+                    className="block hover:text-blue-400"
+                >
+                    Survey Analytics
+                </Link>
+
             </nav>
 
         </div>

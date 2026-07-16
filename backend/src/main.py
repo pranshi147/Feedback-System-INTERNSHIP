@@ -5,7 +5,8 @@ from fastapi import Request
 from src.routers import auth
 from src.routers import feedback
 from src.routers import dashboard
-from src.routers import admin   # <-- add this
+from src.routers import admin   
+from src.routers import survey
 
 app = FastAPI()
 
@@ -33,6 +34,7 @@ app.include_router(auth.router)
 app.include_router(feedback.router)
 app.include_router(dashboard.router)
 app.include_router(admin.router)   
+app.include_router(survey.router)
 
 @app.get("/")
 def home():

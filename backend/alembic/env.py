@@ -12,7 +12,9 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from src.database import Base
 from src.models.user import User
 from src.models.feedback import Feedback
+from src.models.survey import Survey
 from src.core.config import settings
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

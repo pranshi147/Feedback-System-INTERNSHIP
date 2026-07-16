@@ -6,6 +6,8 @@ import SubmitFeedback from "./pages/SubmitFeedback";
 import MyFeedback from "./pages/MyFeedback";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Users from "./pages/Users";
+import Survey from "./pages/Survey";
+import SurveyAnalytics from "./pages/SurveyAnalytics";
 
 function App() {
     return (
@@ -61,6 +63,25 @@ function App() {
                         </ProtectedRoute>
                     }
                 />
+                
+                <Route
+                    path="/survey"
+                    element={
+                        <ProtectedRoute>
+                            <Survey />
+                        </ProtectedRoute>
+                    }
+                />
+                
+                <Route
+                    path="/survey-analytics"
+                    element={
+                        <ProtectedRoute>
+                            <SurveyAnalytics />
+                        </ProtectedRoute>
+                    }
+                />
+                
 
             </Routes>
         </BrowserRouter>
