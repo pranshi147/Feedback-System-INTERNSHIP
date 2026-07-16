@@ -30,4 +30,5 @@ class FeedbackReply(BaseModel):
 
 
 class FeedbackAssign(BaseModel):
-    assigned_to: Optional[int] = None
+    director_id: int
+

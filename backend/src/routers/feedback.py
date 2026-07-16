@@ -25,6 +25,7 @@ from src.core.permissions import (
     admin_required
 )
 
+
 router = APIRouter(
     prefix="/feedback",
     tags=["Feedback"]
@@ -137,7 +138,7 @@ def list_directors(
     return get_directors(db)
 
 
-@router.put("/{feedback_id}/assign")
+@router.patch("/{feedback_id}/assign")
 def assign_feedback_to_director(
     feedback_id: int,
     request: FeedbackAssign,
@@ -145,10 +146,10 @@ def assign_feedback_to_director(
     current_user: User = Depends(admin_required)
 ):
     feedback = assign_feedback(
-        db,
-        feedback_id,
-        request.assigned_to
-    )
+    db,
+    feedback_id,
+    request.director_id
+)
 
     if feedback is None:
         raise HTTPException(
